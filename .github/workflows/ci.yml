@@ -1,6 +1,9 @@
 name: Continuous Integration
 on: push
 
+env:
+  cache-version: v1
+
 jobs:
   unit-test:
     name: Unit Test
@@ -20,13 +23,17 @@ jobs:
         uses: actions/cache@v1.1.0
         with:
           path: ${{ steps.npm-cache.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ cache-version }}-${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ cache-version }}-${{ runner.os }}-node-
       - name: Install dependencies
         run: npm ci
       - name: Test
         run: npm test
+      - name: Upload test coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-coverage-${{ runner.os }}-12.x
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -45,9 +52,9 @@ jobs:
         uses: actions/cache@v1.1.0
         with:
           path: ${{ steps.npm-cache.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ cache-version }}-${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ cache-version }}-${{ runner.os }}-node-
       - name: Install dependencies
         run: npm ci
       - name: Lint

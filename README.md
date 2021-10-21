@@ -3,6 +3,7 @@
 ```
 npm install --save-dev mocha
 npm install --save-dev eslint @cybozu/eslint-config prettier
+npm install --save-dev nyc
 ```
 
 ## test
