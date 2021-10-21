@@ -34,6 +34,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: test-coverage-${{ runner.os }}-12.x
+          path: coverage
   lint:
     name: Lint
     runs-on: ubuntu-latest
